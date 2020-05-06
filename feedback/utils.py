@@ -6,18 +6,32 @@ def generate_keypoint_dicts(payload):
     """Transforms array of pose estimation keypoints 
     into generator of keypoint data
     """
+    dummy_position = dict(x=None, y=None)
+    dummy_score = None
+    
     def is_valid_entry(entry):
-        """Checks if each keypoint contains required fields
+        """Checks if poseEstimates contain required fields
         """
         if not entry.get('keypoints'):
             ValueError('Payload missing keypoints field!')
         if not entry['keypoints']:
             ValueError('Keypoints field is empty!')
         return True
+    
+    def augment_missing(reading):
+        """Checks if each keypoint contains required fields
+        """
+        if not isinstance(reading, dict):
+            ValueError('Keypoint data is not of type dict!')
+        elif not reading.get('position'):
+            reading['score'] = dummy_score
+            reading['position'] = dummy_position
+        return reading
 
     for timestep, entry in enumerate(payload):
         assert is_valid_entry(entry), 'Not a valid entry!'
         for reading in entry['keypoints']:
+            reading = augment_missing(reading)
             yield dict(
                 x=reading['position']['x'],
                 y=reading['position']['y'],
