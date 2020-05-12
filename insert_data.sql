@@ -2,7 +2,7 @@ TRUNCATE programs RESTART IDENTITY;
 INSERT INTO programs (program) VALUES ('Knee'), ('Hip / Lower Back'), ('Shoulder / Upper Back / Neck');
 
 TRUNCATE exercises RESTART IDENTITY;
-INSERT INTO exercises (exercise, url) VALUES 
+INSERT INTO exercises (exercise, video_url) VALUES 
     ('Couch Stretch From Bench', 'https://vimeo.com/396716727/3a77099c9c'), 
     ('Couch Stretch From Wall', 'https://vimeo.com/396716828/e25a030140'),
     ('Alternating Hamstring Bridge', 'https://vimeo.com/396717021/b934096993'),

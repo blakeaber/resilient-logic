@@ -2,7 +2,8 @@
 DROP TABLE IF EXISTS programs;
 CREATE TABLE programs (
 	program_id SERIAL,
-	program VARCHAR(250)
+	program VARCHAR(250),
+	image_url VARCHAR(1000)
 );
 
 -- Each exercise is defined by a set of instructions, a duration and a difficulty level.
@@ -11,7 +12,8 @@ DROP TABLE IF EXISTS exercises;
 CREATE TABLE exercises (
 	exercise_id SERIAL,
 	exercise VARCHAR(250),
-	url VARCHAR(1000),
+	image_url VARCHAR(1000),
+	video_url VARCHAR(1000),
 	difficulty DECIMAL,
 	sets INT,
 	repetitions INT,
@@ -32,7 +34,7 @@ CREATE TABLE prompts (
 	prompt_id SERIAL,
 	prompt VARCHAR(1000),
 	condition VARCHAR(1000),
-	instruction_id INT,
+	instruction_id INT
 );
 
 
