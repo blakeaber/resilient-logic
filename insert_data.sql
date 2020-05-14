@@ -1,31 +1,38 @@
 TRUNCATE programs RESTART IDENTITY;
-INSERT INTO programs (program) VALUES ('Knee'), ('Hip / Lower Back'), ('Shoulder / Upper Back / Neck');
+INSERT INTO programs (program, image_url) VALUES 
+    ('Knee', 'https://cdn1.vectorstock.com/i/1000x1000/67/40/knee-pain-thin-line-icon-body-and-sick-leg-ache-vector-25616740.jpg'), 
+    ('Hip / Lower Back', 'https://cdn1.vectorstock.com/i/1000x1000/68/90/spine-pain-line-icon-body-and-painful-back-ache-vector-25616890.jpg'), 
+    ('Shoulder / Upper Back / Neck', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkoB2z-cYAToKvlQRkhPz4rOOO2HpI78t_7qSHf-KS5Wj8_fS8&usqp=CAU');
+
+UPDATE programs SET description='Overall program to address stiffness and immobility.' WHERE program_id=1;
+UPDATE programs SET description='Overall program to address stiffness and immobility.' WHERE program_id=2;
+UPDATE programs SET description='Overall program to address stiffness and immobility.' WHERE program_id=3;
 
 TRUNCATE exercises RESTART IDENTITY;
-INSERT INTO exercises (exercise, video_url) VALUES 
-    ('Couch Stretch From Bench', 'https://vimeo.com/396716727/3a77099c9c'), 
-    ('Couch Stretch From Wall', 'https://vimeo.com/396716828/e25a030140'),
-    ('Alternating Hamstring Bridge', 'https://vimeo.com/396717021/b934096993'),
-    ('Hamstring Bridge With Reach', 'https://vimeo.com/396717021/b934096993'),
-    ('Dynamic Adduction', 'https://vimeo.com/397994291/00d4e9ced2'),
-    ('Hip Shifting With Internal Rotation', 'https://vimeo.com/397994483/a0d6f8f330'),
-    ('Inch Worm', 'https://vimeo.com/399023224/8987beeaf4'),
-    ('Rockback On Elbows', 'https://vimeo.com/397994077/cbb6530d01'),
-    ('Bear Hold', 'https://vimeo.com/401474438/10ea2af790'),
-    ('Trunk Lift With Screwdriver', 'https://vimeo.com/401478869/079662e753'),
-    ('Half Kneeling Windmill', 'https://vimeo.com/399031091/67a4af42ab');
+INSERT INTO exercises (exercise, video_url, image_url) VALUES 
+    ('Couch Stretch From Bench', 'https://vimeo.com/396716727/3a77099c9c', 'https://img.icons8.com/carbon-copy/2x/exercise.png'), 
+    ('Couch Stretch From Wall', 'https://vimeo.com/396716828/e25a030140', 'https://img.icons8.com/carbon-copy/2x/exercise.png'),
+    ('Alternating Hamstring Bridge', 'https://vimeo.com/396717021/b934096993', 'https://img.icons8.com/carbon-copy/2x/exercise.png'),
+    ('Hamstring Bridge With Reach', 'https://vimeo.com/396717021/b934096993', 'https://img.icons8.com/carbon-copy/2x/exercise.png'),
+    ('Dynamic Adduction', 'https://vimeo.com/397994291/00d4e9ced2', 'https://img.icons8.com/carbon-copy/2x/exercise.png'),
+    ('Hip Shifting With Internal Rotation', 'https://vimeo.com/397994483/a0d6f8f330', 'https://img.icons8.com/carbon-copy/2x/exercise.png'),
+    ('Inch Worm', 'https://vimeo.com/399023224/8987beeaf4', 'https://img.icons8.com/carbon-copy/2x/exercise.png'),
+    ('Rockback On Elbows', 'https://vimeo.com/397994077/cbb6530d01', 'https://img.icons8.com/carbon-copy/2x/exercise.png'),
+    ('Bear Hold', 'https://vimeo.com/401474438/10ea2af790', 'https://img.icons8.com/carbon-copy/2x/exercise.png'),
+    ('Trunk Lift With Screwdriver', 'https://vimeo.com/401478869/079662e753', 'https://img.icons8.com/carbon-copy/2x/exercise.png'),
+    ('Half Kneeling Windmill', 'https://vimeo.com/399031091/67a4af42ab', 'https://img.icons8.com/carbon-copy/2x/exercise.png');
 
-UPDATE exercises SET difficulty=0, seconds=120, per_side=true WHERE exercise_id=1;
-UPDATE exercises SET difficulty=1, seconds=120, per_side=true WHERE exercise_id=2;
-UPDATE exercises SET difficulty=0, sets=2, repetitions=10, per_side=true WHERE exercise_id=3;
-UPDATE exercises SET difficulty=1, sets=2, fatigue_level=5 WHERE exercise_id=4;
-UPDATE exercises SET difficulty=1, sets=2, repetitions=20, per_side=true WHERE exercise_id=5;
-UPDATE exercises SET difficulty=1, sets=2, repetitions=20, per_side=true WHERE exercise_id=6;
-UPDATE exercises SET difficulty=0, sets=2, repetitions=40, per_side=true WHERE exercise_id=7;
-UPDATE exercises SET difficulty=0, sets=2, repetitions=4 WHERE exercise_id=8;
-UPDATE exercises SET difficulty=1, sets=2, fatigue_level=5 WHERE exercise_id=9;
-UPDATE exercises SET difficulty=0, sets=2, repetitions=10, per_side=true WHERE exercise_id=10;
-UPDATE exercises SET difficulty=0, sets=2, repetitions=10, per_side=true WHERE exercise_id=11;
+UPDATE exercises SET seconds=120, per_side=true WHERE exercise_id=1;
+UPDATE exercises SET seconds=120, per_side=true WHERE exercise_id=2;
+UPDATE exercises SET sets=2, repetitions=10, per_side=true WHERE exercise_id=3;
+UPDATE exercises SET sets=2, fatigue_level=5 WHERE exercise_id=4;
+UPDATE exercises SET sets=2, repetitions=20, per_side=true WHERE exercise_id=5;
+UPDATE exercises SET sets=2, repetitions=20, per_side=true WHERE exercise_id=6;
+UPDATE exercises SET sets=2, repetitions=40, per_side=true WHERE exercise_id=7;
+UPDATE exercises SET sets=2, repetitions=4 WHERE exercise_id=8;
+UPDATE exercises SET sets=2, fatigue_level=5 WHERE exercise_id=9;
+UPDATE exercises SET sets=2, repetitions=10, per_side=true WHERE exercise_id=10;
+UPDATE exercises SET sets=2, repetitions=10, per_side=true WHERE exercise_id=11;
 
 TRUNCATE instructions RESTART IDENTITY;
 INSERT INTO instructions (instruction) VALUES 
@@ -165,3 +172,19 @@ INSERT INTO program_content (program_id, exercise_id, instruction_id) VALUES
     (3, 11, 43),
     (3, 11, 44),
     (3, 11, 45);
+
+UPDATE program_content SET exercise_group=1, difficulty_level=0 WHERE program_id=1 AND exercise_id=1;
+UPDATE program_content SET exercise_group=1, difficulty_level=1 WHERE program_id=1 AND exercise_id=2;
+UPDATE program_content SET exercise_group=2, difficulty_level=0 WHERE program_id=1 AND exercise_id=3;
+UPDATE program_content SET exercise_group=2, difficulty_level=1 WHERE program_id=1 AND exercise_id=4;
+
+UPDATE program_content SET exercise_group=1, difficulty_level=0 WHERE program_id=2 AND exercise_id=1;
+UPDATE program_content SET exercise_group=1, difficulty_level=1 WHERE program_id=2 AND exercise_id=2;
+UPDATE program_content SET exercise_group=2, difficulty_level=0 WHERE program_id=2 AND exercise_id=5;
+UPDATE program_content SET exercise_group=2, difficulty_level=1 WHERE program_id=2 AND exercise_id=6;
+UPDATE program_content SET exercise_group=3, difficulty_level=0 WHERE program_id=2 AND exercise_id=7;
+
+UPDATE program_content SET exercise_group=1, difficulty_level=0 WHERE program_id=3 AND exercise_id=8;
+UPDATE program_content SET exercise_group=1, difficulty_level=1 WHERE program_id=3 AND exercise_id=9;
+UPDATE program_content SET exercise_group=2, difficulty_level=0 WHERE program_id=3 AND exercise_id=10;
+UPDATE program_content SET exercise_group=3, difficulty_level=0 WHERE program_id=3 AND exercise_id=11;

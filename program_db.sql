@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS programs;
 CREATE TABLE programs (
 	program_id SERIAL,
 	program VARCHAR(250),
+	description VARCHAR(1000),
 	image_url VARCHAR(1000)
 );
 
@@ -12,9 +13,9 @@ DROP TABLE IF EXISTS exercises;
 CREATE TABLE exercises (
 	exercise_id SERIAL,
 	exercise VARCHAR(250),
+	description VARCHAR(1000),
 	image_url VARCHAR(1000),
 	video_url VARCHAR(1000),
-	difficulty DECIMAL,
 	sets INT,
 	repetitions INT,
 	seconds INT,
@@ -43,5 +44,7 @@ CREATE TABLE program_content (
 	program_content_id SERIAL,
 	program_id INT,
 	exercise_id INT,
-	instruction_id INT
+	instruction_id INT,
+	exercise_group INT,
+	difficulty_level DECIMAL
 );
