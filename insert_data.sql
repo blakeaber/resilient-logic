@@ -22,6 +22,8 @@ INSERT INTO exercises (exercise, video_url, image_url) VALUES
     ('Trunk Lift With Screwdriver', 'https://vimeo.com/401478869/079662e753', 'https://img.icons8.com/carbon-copy/2x/exercise.png'),
     ('Half Kneeling Windmill', 'https://vimeo.com/399031091/67a4af42ab', 'https://img.icons8.com/carbon-copy/2x/exercise.png');
 
+UPDATE exercises SET description='This description will introduce the user to the exercise with 1) the goal, and 2) what to expect';
+
 UPDATE exercises SET seconds=120, per_side=true WHERE exercise_id=1;
 UPDATE exercises SET seconds=120, per_side=true WHERE exercise_id=2;
 UPDATE exercises SET sets=2, repetitions=10, per_side=true WHERE exercise_id=3;
