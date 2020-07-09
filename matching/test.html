@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<style>
+			button {
+				margin: 0px 5px 0px 0px;
+				width: 100px;
+				cursor: pointer;
+			}
+			video {
+			    visibility: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<button id="btn-start-recording">Start</button>
+			<button id="btn-stop-recording">Stop</button>
+		</div>
+		<div>
+			<canvas id="demo-output"></canvas>
+			<h1 id="match-value"></h1>
+			<video src="" autoplay="true" width="640" height="480" id="demo-video"></video>
+		</div>
+		<script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+		<script>
+			var video = document.getElementById('demo-video');
+			var canvas = document.getElementById('demo-output');
+			var ctx = canvas.getContext('2d');
+
+			var apiCalls;
+			var recorder;
+			var videoWidth = 0;
+			var videoHeight = 0;
+
+			video.addEventListener('loadeddata', function(event){
+				videoWidth = event.target.offsetWidth;
+				videoHeight = event.target.offsetHeight;
+				canvas.width = videoWidth;
+				canvas.height = videoHeight;
+			});
+
+			// Example POST method implementation:
+			async function postApi(url, data) {
+			  const response = await fetch(url, {
+				method: 'POST',
+				body: JSON.stringify(data)
+			  });
+			  return response.json();
+			}
+
+            // USE PROMISES HERE
+            // https://itnext.io/javascript-promises-and-async-await-as-fast-as-possible-d7c8c8ff0abc
+
+			function capture() {
+				ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+				var dataURL = canvas.toDataURL("image/png", 0.25);
+
+				const url = "https://zad9kr4tt1.execute-api.us-east-1.amazonaws.com/default/pose-estimator";
+				const data = JSON.stringify(dataURL.replace(/^data:image\/(png|jpg);base64,/, ""))
+				postApi(url, data)
+				  .then(response => {
+    				var output = document.getElementById("match-value");
+
+  				    pose_score = response['body']['match'];
+  				    console.log(pose_score)
+				    if (pose_score < 0.2) {
+					  detected_pose = "YMCA!";
+				    } else {
+					  detected_pose = "It's fun to stay at the...";
+				    }
+				    output.innerHTML = detected_pose;
+
+				  });
+				console.log('posted image to server');
+
+			}
+
+			// When the user clicks on start video recording
+			document.getElementById('btn-start-recording').addEventListener("click", function(){
+
+                console.log('start recording')
+				this.disabled = true;
+
+				navigator.mediaDevices.getUserMedia({
+					audio: false, 
+					video: { width: videoWidth, height: videoHeight }
+				}).then(function(stream) {
+
+					setSrcObject(stream, video);
+					video.play();
+					video.muted = true;
+
+					recorder = new RecordRTCPromisesHandler(stream, {
+						mimeType: 'video/mp4'
+					});
+					recorder.startRecording().then(function() {
+						console.info('Recording video ...');
+					}).catch(function(error) {
+						console.error('Cannot start video recording: ', error);
+					});
+					recorder.stream = stream;
+				}).catch(function(error) {
+					console.error("Cannot access media devices: ", error);
+				});
+
+				apiCalls = setInterval(capture, 5000);
+				console.log('interval set')
+
+			}, false);
+
+            // When the user clicks on stop video recording
+			document.getElementById('btn-stop-recording').addEventListener("click", function(){
+				console.log('stop recording')
+				this.disabled = true;
+				document.getElementById('btn-start-recording').disabled = false;
+				
+				recorder.stopRecording()
+				recorder.stream.stop();
+				
+				video.pause();
+				clearInterval(apiCalls);
+				
+			}, false);
+
+		</script>
+	</body>
+</html>
